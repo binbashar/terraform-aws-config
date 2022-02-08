@@ -25,12 +25,7 @@ data "template_file" "aws_config_policy" {
         "Sid": "AWSConfigBucketDelivery",
         "Effect": "Allow",
         "Action": "s3:PutObject",
-        "Resource": "$${resource}",
-        "Condition": {
-          "StringLike": {
-            "s3:x-amz-acl": "bucket-owner-full-control"
-          }
-        }
+        "Resource": "$${resource}"
     }
   ]
 }
@@ -39,11 +34,10 @@ JSON
   vars = {
     bucket_arn = format("arn:%s:s3:::%s", data.aws_partition.current.partition, var.config_logs_bucket)
     resource = format(
-      "arn:%s:s3:::%s/%s/AWSLogs/%s/Config/*",
+      "arn:%s:s3:::%s/%s/AWSLogs/*/Config/*",
       data.aws_partition.current.partition,
       var.config_logs_bucket,
       var.config_logs_prefix,
-      data.aws_caller_identity.current.account_id,
     )
   }
 }
