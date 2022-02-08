@@ -27,9 +27,9 @@ data "template_file" "aws_config_policy" {
         "Action": "s3:PutObject",
         "Resource": "$${resource}",
         "Condition": {
-            "StringLike": {
-                "s3:x-amz-acl": "bucket-owner-full-control"
-              }
+          "StringLike": {
+            "s3:x-amz-acl": "bucket-owner-full-control"
+          }
         }
     }
   ]
